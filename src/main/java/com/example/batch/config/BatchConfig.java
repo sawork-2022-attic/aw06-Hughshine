@@ -21,7 +21,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 
 @Configuration
-@EnableBatchProcessing
+@EnableBatchProcessing  // 提示要为batch应用创建一系列的bean
 public class BatchConfig {
 
 
@@ -32,9 +32,11 @@ public class BatchConfig {
     public StepBuilderFactory stepBuilderFactory;
 
 
+
     @Bean
     public ItemReader<JsonNode> itemReader() {
-        return new JsonFileReader("/home/java/meta_Clothing_Shoes_and_Jewelry.json");
+
+        return new JsonFileReader("./data/meta_Gift_Cards.json");
     }
 
     @Bean
@@ -49,7 +51,7 @@ public class BatchConfig {
 
     @Bean
     protected Step processProducts(ItemReader<JsonNode> reader, ItemProcessor<JsonNode, Product> processor, ItemWriter<Product> writer) {
-        return stepBuilderFactory.get("processProducts").<JsonNode, Product>chunk(20)
+        return stepBuilderFactory.get("processProducts").<JsonNode, Product>chunk(20)  // step 每次处理 20 的数据
                 .reader(reader)
                 .processor(processor)
                 .writer(writer)
@@ -58,7 +60,7 @@ public class BatchConfig {
     }
 
     @Bean
-    public Job chunksJob() {
+    public Job chunksJob() {  // job 含有一个 step
         return jobBuilderFactory
                 .get("chunksJob")
                 .start(processProducts(itemReader(), itemProcessor(), itemWriter()))

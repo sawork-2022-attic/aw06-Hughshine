@@ -160,6 +160,9 @@ buildNumber.properties
 .history
 .ionide
 
+data/*
+.idea/*
+resources/mysql.config
 # Support for Project snippet scope
 
 # End of https://www.toptal.com/developers/gitignore/api/maven,intellij+all,macos,visualstudiocode

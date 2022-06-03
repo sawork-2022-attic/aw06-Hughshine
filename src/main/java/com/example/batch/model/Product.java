@@ -15,6 +15,8 @@ public class Product {
 
     private String asin;
 
+    private String price; 
+    
     private List<String> category;
 
     private List<String> imageURLHighRes;
